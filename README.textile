@@ -10,4 +10,14 @@ Possui como objetivo a criação de um identificador de espécies vegetais atrav
 
 Professor Orientador:  Ronaldo Martins da Costa
 
+h2. TODO
+
+#. Conseguir as fotografias das espécies de treino.
+#. Descobrir a maior altura.
+#. Descobrir a maior largura.
+#. Descobrir o perímetro. - CvArcLenght?
+#. Descobrir a área da folha. - CvContourArea?
+#. Criar o método em C que recebe um vetor com X posições (vetor de características).
+#. Criar um método que pega o vetor e compara (distancia Euclidiana, ou angulo entre vetores) com a base de dados (a idéia é que esteja em arquivo.)
+
 
