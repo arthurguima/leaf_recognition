@@ -20,4 +20,6 @@ h2. TODO
 #. Criar o método em C que recebe um vetor com X posições (vetor de características).
 #. Criar um método que pega o vetor e compara (distancia Euclidiana, ou angulo entre vetores) com a base de dados (a idéia é que esteja em arquivo.)
 
+h2. Como compilar
 
+* *Como compilar:*  gcc -I/usr/include/opencv/ -lcv -lhighgui -lstdc++ -o nome_executavel nome_arquivo.c
