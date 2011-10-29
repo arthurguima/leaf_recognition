@@ -41,6 +41,18 @@ char get_input_char(){
 void realize_action(int in){
 }
 
+void create_vector(){
+    //nome do diretorio e vetor para nomes das imagens
+    char dir[255], file[255];
+    //Auxiliars
+    int i;
+    
+    printf("Qual o diretório das imagens de treino?")
+    scanf("%s",&dir);
+    
+
+
+}
 
 
 

@@ -17,7 +17,8 @@ h2. TODO
 #. Descobrir a maior largura.
 #. Descobrir o perímetro. - CvArcLenght?
 #. Descobrir a área da folha. - CvContourArea?
-#. Criar o método em C que recebe um vetor com X posições (vetor de características).
+#. Método que retorna todas as imagens de uma pasta para construir o vetor (utilizar nome do arquivo para classisficar as plantas)
+#. Cronstruir o vetor a partir dos arquivos e com os dados gerados pra cada imagem.
 #. Criar um método que pega o vetor e compara (distancia Euclidiana, ou angulo entre vetores) com a base de dados (a idéia é que esteja em arquivo.)
 
 h2. Como compilar
