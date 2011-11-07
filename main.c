@@ -10,9 +10,8 @@
 void  print_menu();
 void  realize_action(int in);
 int   get_input_int();
-char* get_input_char();
-void  realize_action();
-void  create_vector();
+char  get_input_char();
+void  create_vector(char *dir);
 void  recognize(char *file);
 /*****************************/
 
@@ -46,10 +45,11 @@ int get_input_int(){
 }
 
 //Le informação do usuário:String
-char* get_input_char(){
+char get_input_char(char *in){
     char input[max_char];
     scanf("%s",&input);
-    return input;
+    strcpy (in, input);
+    return 1;
 }
 
 
@@ -59,13 +59,13 @@ void realize_action(int in){
          case 1:
               printf("Em qual diretório estão as imagens?\n");
               char dir[max_char];
-              dir = get_input_char();
+              get_input_char(*dir);
               create_vector(dir);
               break;
          case 2:
               printf("Qual o endereço da imagem que deseja reconheceer?\n");
               char file[max_char];
-              file = get_input_char();
+              get_input_char(*file);
               recognize(file); 
               break;
          case 3:
@@ -82,12 +82,7 @@ void recognize(char *file){
 }
 
 // Cria o vetor de características
-void create_vector(char dir[]){
-    //nome do diretorio e vetor para nomes das imagens
-    char dir[max_char]; //, file[max_char];
-    //Auxiliars
-    int i;
-
+void create_vector(char *dir){
     //Estrutura que percorre os arquivos do diretório
     struct dirent **namelist;
     int file_num; // número de arquivos no diretório
@@ -97,11 +92,10 @@ void create_vector(char dir[]){
       perror("Não existem arquivos no diretório");
     else {
       while(file_num--) {
-        printf("%s\n", namelist[file_num]->d_name);
+        printf("Cadastra -> %s\n", namelist[file_num]->d_name);
         free(namelist[file_num]);
       }
-
-
+    }
 }
 
 
