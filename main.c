@@ -5,8 +5,8 @@
 #include <dirent.h>
 #include <highgui.h>
 
-#define max_char 100
-#define max_species 30
+#define max_char 100   //número máximo de caracteres nas strings recebidas
+#define max_species 30 //número máximo de espécies vegetais
 
 //Estrutura para guardar as características e nome de cada espécie vegetal
 struct{
@@ -14,6 +14,8 @@ struct{
   char name[30];
 } carcteristic_vector
 
+//Vetor de estruturas
+struct caracteristic_vector species[max_species];
 
 /*** Assinatura dos métodos ***/
 void  print_menu();
