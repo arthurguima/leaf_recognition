@@ -130,6 +130,8 @@ void add_image_to_vector(char *image){
         	cvReleaseImage(&imagem);*/
        /* !DEBUG */
 
+  // http://www710.univ-lyon1.fr/~bouakaz/OpenCV-0.9.5/docs/ref/OpenCVRef_StructAnalysis.htm
+
 }
 
 
