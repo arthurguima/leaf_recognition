@@ -131,8 +131,20 @@ void add_image_to_vector(char *image){
        /* !DEBUG */
 
   // http://www710.univ-lyon1.fr/~bouakaz/OpenCV-0.9.5/docs/ref/OpenCVRef_StructAnalysis.htm
-
 }
 
+// Retorna a altura da folha
+float leaf_height(){
+}
 
+//Retorna a largura da folha
+float leaf_width(){
+}
 
+//Retorna a área da folha
+float leaf_area(){
+}
+
+//Retorna o perimetro da folha
+float leaf_perimeter(){
+}
