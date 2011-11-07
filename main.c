@@ -18,13 +18,17 @@ struct{
 struct caracteristic_vector species[max_species];
 
 /*** Assinatura dos métodos ***/
-void  print_menu();
-void  realize_action(int in);
-int   get_input_int();
-char  get_input_char();
-void  create_vector(char *dir);
-void  recognize(char *file);
-void  add_image_to_vector(char *image);
+void  print_menu          ();
+void  realize_action      (int in);
+int   get_input_int       ();
+char  get_input_char      ();
+void  create_vector       (char *dir);
+void  recognize           (char *file);
+void  add_image_to_vector (char *image);
+float leaf_width          (IplImage* imagem);
+float leaf_height         (IplImage* imagem);
+float leaf_area           (Ipl Image* imagem);
+float leaf_perimeter      (IplImage* imagem) ;
 /*****************************/
 
 //Função principal
@@ -134,17 +138,17 @@ void add_image_to_vector(char *image){
 }
 
 // Retorna a altura da folha
-float leaf_height(){
+float leaf_height (IplImage* imagem){
 }
 
 //Retorna a largura da folha
-float leaf_width(){
+float leaf_width (IplImage* imagem){
 }
 
 //Retorna a área da folha
-float leaf_area(){
+float leaf_area (IplImage* imagem) {
 }
 
 //Retorna o perimetro da folha
-float leaf_perimeter(){
+float leaf_perimeter (IplImage* imagem){
 }
