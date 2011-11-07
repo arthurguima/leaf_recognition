@@ -3,3 +3,5 @@ Arquivo      ->      Descrição
 folha_destacada(pretoEbranco) -> Gera uma imagem, preto e branca, com a forma da folha em destaque.
 
 contorno_da_folha_com_Canny -> Gera uma imagem com o contorno da folha.
+
+reaf_files -> recupera todos os arquivos de uma pasta

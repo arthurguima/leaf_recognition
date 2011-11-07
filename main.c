@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <cv.h>
 #include <cvaux.h>
+#include <dirent.h>
 #include <highgui.h>
 
 #define max_char 100
@@ -81,11 +82,26 @@ void recognize(char *file){
 }
 
 // Cria o vetor de características
-void create_vector(){
+void create_vector(char dir[]){
     //nome do diretorio e vetor para nomes das imagens
-    char dir[max_char], file[max_char];
+    char dir[max_char]; //, file[max_char];
     //Auxiliars
     int i;
+
+    //Estrutura que percorre os arquivos do diretório
+    struct dirent **namelist;
+    int file_num; // número de arquivos no diretório
+    file_num = scandir(dir, &namelist, 0, alphasort);
+    
+    if (file_num < 0)
+      perror("Não existem arquivos no diretório");
+    else {
+      while(file_num--) {
+        printf("%s\n", namelist[file_num]->d_name);
+        free(namelist[file_num]);
+      }
+
+
 }
 
 
