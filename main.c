@@ -3,14 +3,17 @@
 #include <cvaux.h>
 #include <highgui.h>
 
-#define max_char = 100
+#define max_char 100
 
-void print_menu();
-void realize_action(int in);
-int get_input_int();
-int get_input_char();
-void realize_action();
-void create_vector();
+/*** Assinatura dos métodos ***/
+void  print_menu();
+void  realize_action(int in);
+int   get_input_int();
+char* get_input_char();
+void  realize_action();
+void  create_vector();
+void  recognize(char *file);
+/*****************************/
 
 
 int main(){
@@ -28,10 +31,10 @@ int main(){
 
 //Imprime opções de seleção do menu
 void print_menu(){
-  printf("Escolha uma das seguintes opções:\n 
-          1. Inserir conjunto de treino.\n 
-          2. Reconhecer espécie vegetal.\n
-          3. Sair.\n");
+  printf("Escolha uma das seguintes opções:\n");
+  printf("1. Inserir conjunto de treino.\n"); 
+  printf(" 2. Reconhecer espécie vegetal.\n"); 
+  printf(" 3. Sair.\n");
 }
 
 //Le informação do usuário:Integer
@@ -42,7 +45,7 @@ int get_input_int(){
 }
 
 //Le informação do usuário:String
-char get_input_char(){
+char* get_input_char(){
     char input[max_char];
     scanf("%s",&input);
     return input;
@@ -54,25 +57,27 @@ void realize_action(int in){
   switch (in){
          case 1:
               printf("Em qual diretório estão as imagens?\n");
-              char dir[max_char] = get_input_char();
+              char dir[max_char];
+              dir = get_input_char();
               create_vector(dir);
               break;
          case 2:
               printf("Qual o endereço da imagem que deseja reconheceer?\n");
-              char file[max_char] = get_input_char();
+              char file[max_char];
+              file = get_input_char();
               recognize(file); 
               break;
          case 3:
-              printf("Tchau!\n")
+              printf("Tchau!\n");
               break;
          default:
-              printf("Este não é um comando válido!\n")
+              printf("Este não é um comando válido!\n");
               break;
      }
 }
 
 //Faz o reconhecimento da imagem a partir do vetor de características
-void recognize(){
+void recognize(char *file){
 }
 
 // Cria o vetor de características
@@ -81,9 +86,6 @@ void create_vector(){
     char dir[max_char], file[max_char];
     //Auxiliars
     int i;
-    
-    printf("Qual o diretório das imagens de treino?")
-    scanf("%s",&dir);
 }
 
 
