@@ -45,8 +45,8 @@ int main(){
 void print_menu(){
   puts("Escolha uma das seguintes opções:\n");
   puts("1. Inserir conjunto de treino.\n"); 
-  puts(" 2. Reconhecer espécie vegetal.\n"); 
-  puts(" 3. Sair.\n");
+  puts("2. Reconhecer espécie vegetal.\n"); 
+  puts("3. Sair.\n");
 }
 
 //Le informação do usuário:Integer
@@ -114,6 +114,21 @@ void create_vector(char *dir){
 
 //Adiciona caracteristicas da folha ao vetor de carcterísticas
 void add_image_to_vector(char *image){
+ 
+ //Carrega imagem da Folha
+	IplImage* imagem = cvLoadImage(image,1); 
+ //Usa smooth para reduzir riscos ao lado da folha 
+	cvSmooth(imagem, imagem, CV_GAUSSIAN, 5, 5, 5, 5);
+ //Threshold da imagem da folha
+	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
+ 
+        /* !DEBUG */
+         /* cvNamedWindow("DEBUG", 1);
+          cvShowImage("DEBUG", imagem);
+          cvWaitKey(-1);
+          cvDestroyWindow("DEBUG");
+        	cvReleaseImage(&imagem);*/
+       /* !DEBUG */
 
 }
 
