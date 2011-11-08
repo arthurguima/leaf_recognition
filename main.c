@@ -12,10 +12,10 @@
 struct{
   int carac[5];
   char name[30];
-} carcteristic_vector
+} caracteristic_vector;
 
 //Vetor de estruturas
-struct caracteristic_vector species[max_species];
+struct caracteristic_vector *species[max_species];
 
 /*** Assinatura dos métodos ***/
 void  print_menu          ();
@@ -23,12 +23,12 @@ void  realize_action      (int in);
 int   get_input_int       ();
 char  get_input_char      ();
 void  create_vector       (char *dir);
-void  recognize           (char *file);
+int  recognize           (char *file);
 void  add_image_to_vector (char *image);
-float leaf_width          (IplImage* imagem);
-float leaf_height         (IplImage* imagem);
-float leaf_area           (Ipl Image* imagem);
-float leaf_perimeter      (IplImage* imagem) ;
+float leaf_width          ();
+float leaf_height         ();
+float leaf_area           ();
+float leaf_perimeter      ();
 /*****************************/
 
 //Função principal
@@ -94,7 +94,8 @@ void realize_action(int in){
 }
 
 //Faz o reconhecimento da imagem a partir do vetor de características
-void recognize(char *file){
+int recognize(char *file){
+  return 0;
 }
 
 // Cria o vetor de características
@@ -108,7 +109,7 @@ void create_vector(char *dir){
       perror("Não existem arquivos no diretório");
     else {
       while(file_num--) {
-        //printf("Cadastra -> %s\n", namelist[file_num]->d_name); // !debug
+        /* !DEBUG! printf("Cadastra -> %s\n", namelist[file_num]->d_name);  !DEBUG! */
         add_image_to_vector(namelist[file_num]->d_name); //Usa a imagem como entrada para o vetor
         free(namelist[file_num]); //libera posição na memória
       }
@@ -138,17 +139,17 @@ void add_image_to_vector(char *image){
 }
 
 // Retorna a altura da folha
-float leaf_height (IplImage* imagem){
+float leaf_height (){
 }
 
 //Retorna a largura da folha
-float leaf_width (IplImage* imagem){
+float leaf_width (){
 }
 
 //Retorna a área da folha
-float leaf_area (IplImage* imagem) {
+float leaf_area () {
 }
 
 //Retorna o perimetro da folha
-float leaf_perimeter (IplImage* imagem){
+float leaf_perimeter (){
 }
