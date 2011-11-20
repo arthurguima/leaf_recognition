@@ -56,18 +56,21 @@ void create_vector(char* dir){
     struct dirent **namelist;
     int file_num; // número de arquivos no diretório
     file_num = scandir(dir, &namelist, 0, alphasort);
-    
+
+       
     if (file_num < 0)
       perror("Não existem arquivos no diretório");
     else {
       while(file_num--) {
+        char image[256];
+        sprintf(image, "%s%s", dir, namelist[file_num]->d_name); 
+
         /* !DEBUG! printf("Cadastra -> %s\n", namelist[file_num]->d_name);  !DEBUG! */
-        add_image_to_vector(strcat(dir,namelist[file_num]->d_name)); //Usa a imagem como entrada para o vetor
+        add_image_to_vector(image); //Usa a imagem como entrada para o vetor
         free(namelist[file_num]); //libera posição na memória
       }
     }
 }
-
 
 //Adiciona caracteristicas da folha ao vetor de carcterísticas
 void add_image_to_vector(char* image){
@@ -78,13 +81,14 @@ void add_image_to_vector(char* image){
 	cvSmooth(imagem, imagem, CV_GAUSSIAN, 5, 5, 5, 5);
  //Threshold da imagem da folha
 	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
- 
+
+
        /* !DEBUG */
-          cvNamedWindow("DEBUG", 1);
+          /*cvNamedWindow("DEBUG", 1);
           cvShowImage("DEBUG", imagem);
           cvWaitKey(-1);
           cvDestroyWindow("DEBUG");
-        	cvReleaseImage(&imagem);
+        	cvReleaseImage(&imagem);*/
        /* !DEBUG */
 
 }
@@ -139,6 +143,7 @@ void realize_action(int in){
   switch (in){
          case 1:
               printf("Em qual diretório estão as imagens?\n");
+              printf("Use . para o diretório atual\n");
               char dir[MAX_STRING_LENGTH];
               get_input_char(dir);  //DEBUG printf("READ: %s", dir);
               create_vector(dir);
