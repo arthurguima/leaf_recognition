@@ -10,20 +10,20 @@
 
 //Estrutura para guardar as características e nome de cada espécie vegetal
 struct{
-  int carac[5];
+  int caracteristics[5];
   char name[30];
 } caracteristic_vector;
 
 //Vetor de estruturas
-struct caracteristic_vector *species[max_species];
+//struct caracteristic_vector species[max_species];
 
 /*** Assinatura dos métodos ***/
 void  print_menu          ();
 void  realize_action      (int in);
 int   get_input_int       ();
-char  get_input_char      ();
+char  get_input_char      (char *in);
 void  create_vector       (char *dir);
-int  recognize           (char *file);
+int  recognize            (char *file);
 void  add_image_to_vector (char *image);
 float leaf_width          ();
 float leaf_height         ();
@@ -45,53 +45,6 @@ int main(){
   return 0;
 }
 
-//Imprime opções de seleção do menu
-void print_menu(){
-  puts("Escolha uma das seguintes opções:\n");
-  puts("1. Inserir conjunto de treino.\n"); 
-  puts("2. Reconhecer espécie vegetal.\n"); 
-  puts("3. Sair.\n");
-}
-
-//Le informação do usuário:Integer
-int get_input_int(){
-    int input;
-    scanf("%i",&input);
-    return input;
-}
-
-//Le informação do usuário:String
-char get_input_char(char *in){
-    char input[max_char];
-    scanf("%s",&input);
-    strcpy (in, input);
-    return 1;
-}
-
-
-//Faz a chamada para a opção escolhida
-void realize_action(int in){
-  switch (in){
-         case 1:
-              printf("Em qual diretório estão as imagens?\n");
-              char dir[max_char];
-              get_input_char(*dir);
-              create_vector(dir);
-              break;
-         case 2:
-              printf("Qual o endereço da imagem que deseja reconheceer?\n");
-              char file[max_char];
-              get_input_char(*file);
-              recognize(file); 
-              break;
-         case 3:
-              printf("Tchau!\n");
-              break;
-         default:
-              printf("Este não é um comando válido!\n");
-              break;
-     }
-}
 
 //Faz o reconhecimento da imagem a partir do vetor de características
 int recognize(char *file){
@@ -127,7 +80,7 @@ void add_image_to_vector(char *image){
  //Threshold da imagem da folha
 	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
  
-        /* !DEBUG */
+       /* !DEBUG */
          /* cvNamedWindow("DEBUG", 1);
           cvShowImage("DEBUG", imagem);
           cvWaitKey(-1);
@@ -153,3 +106,57 @@ float leaf_area () {
 //Retorna o perimetro da folha
 float leaf_perimeter (){
 }
+
+
+/*                                                                                          *
+ *                        Funções Gerais: Usadas para interação com o usuario               *                         
+ *                                                                                          *
+ *                                                                                          */
+
+//Imprime opções de seleção do menu
+void print_menu(){
+  puts("Escolha uma das seguintes opções:\n");
+  puts("1. Inserir conjunto de treino.\n"); 
+  puts("2. Reconhecer espécie vegetal.\n"); 
+  puts("3. Sair.\n");
+}
+
+//Le informação do usuário:Integer
+int get_input_int(){
+    int input;
+    scanf("%i",&input);
+    return input;
+}
+
+//Le informação do usuário:String
+char get_input_char(char* in){
+    char input[max_char];
+    scanf("%s",input);
+    strcpy (in, input);
+    return 1;
+}
+
+//Faz a chamada para a opção escolhida
+void realize_action(int in){
+  switch (in){
+         case 1:
+              printf("Em qual diretório estão as imagens?\n");
+              char dir[max_char];
+              get_input_char(dir);  //DEBUG printf("%s", dir);
+              //create_vector(dir);
+              break;
+         case 2:
+              printf("Qual o endereço da imagem que deseja reconheceer?\n");
+              char file[max_char];
+              get_input_char(file);
+              recognize(file); 
+              break;
+         case 3:
+              printf("Tchau!\n");
+              break;
+         default:
+              printf("Este não é um comando válido!\n");
+              break;
+  }
+}
+
