@@ -5,7 +5,7 @@
 #include <dirent.h>
 #include <highgui.h>
 
-#define MAX_STRING_LENGTH 100   //número máximo de caracteres nas strings recebidas
+#define MAX_STRING_LENGTH 180   //número máximo de caracteres nas strings recebidas
 #define MAX_SPECIES_VECTOR 30 //número máximo de espécies vegetais
 
 //Estrutura para guardar as características e nome de cada espécie vegetal
@@ -25,10 +25,10 @@ char  get_input_char      (char* in);
 void  create_vector       (char* dir);
 int  recognize            (char* file);
 void  add_image_to_vector (char* image);
-float leaf_width          ();
-float leaf_height         ();
-float leaf_area           ();
-float leaf_perimeter      ();
+float leaf_width          (IplImage* img);
+float leaf_height         (IplImage* img);
+float leaf_area           (IplImage* img);
+float leaf_perimeter      (IplImage* img);
 /*****************************/
 
 //Função principal
@@ -62,26 +62,25 @@ void create_vector(char* dir){
       perror("Não existem arquivos no diretório");
     else {
       while(file_num--) {
-        char image[256];
+        char image[MAX_STRING_LENGTH];
         sprintf(image, "%s%s", dir, namelist[file_num]->d_name); 
 
         /* !DEBUG! printf("Cadastra -> %s\n", namelist[file_num]->d_name);  !DEBUG! */
-        add_image_to_vector(image); //Usa a imagem como entrada para o vetor
+        add_image_to_vector(image, namelist[file_num]->d_name); //Usa a imagem como entrada para o vetor
         free(namelist[file_num]); //libera posição na memória
       }
     }
 }
 
 //Adiciona caracteristicas da folha ao vetor de carcterísticas
-void add_image_to_vector(char* image){
+void add_image_to_vector(char* address, char* image){
  
  //Carrega imagem da Folha
-	IplImage* imagem = cvLoadImage(image,1); 
+	IplImage* imagem = cvLoadImage(address,1); 
  //Usa smooth para reduzir riscos ao lado da folha 
 	cvSmooth(imagem, imagem, CV_GAUSSIAN, 5, 5, 5, 5);
  //Threshold da imagem da folha
 	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
-
 
        /* !DEBUG */
           /*cvNamedWindow("DEBUG", 1);
@@ -91,24 +90,37 @@ void add_image_to_vector(char* image){
         	cvReleaseImage(&imagem);*/
        /* !DEBUG */
 
+  float height    = leaf_height(imagem);
+  float width     = leaf_width(imagem);
+  float area      = leaf_area(imagem);
+  float perimeter = leaf_perimeter(imagem);
+
+  char name[MAX_STRING_LENGTH];
+  int  position; 
+  
+  sscanf();
+
 }
 
 // Retorna a altura da folha
-float leaf_height (){
+float leaf_height (IplImage* img){
+return 0.0;
 }
 
 //Retorna a largura da folha
-float leaf_width (){
+float leaf_width (IplImage* img){
+  return 0.0;
 }
 
 //Retorna a área da folha
-float leaf_area () {
+float leaf_area (IplImage* img) {
+  return 0.0;
 }
 
 //Retorna o perimetro da folha
-float leaf_perimeter (){
+float leaf_perimeter (IplImage* img){
+  return 0.0;
 }
-
 
 /*                                                                                          *
  *                        Funções Gerais: Usadas para interação com o usuario               *                         
