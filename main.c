@@ -5,26 +5,26 @@
 #include <dirent.h>
 #include <highgui.h>
 
-#define max_char 100   //número máximo de caracteres nas strings recebidas
-#define max_species 30 //número máximo de espécies vegetais
+#define MAX_STRING_LENGTH 100   //número máximo de caracteres nas strings recebidas
+#define MAX_SPECIES_VECTOR 30 //número máximo de espécies vegetais
 
 //Estrutura para guardar as características e nome de cada espécie vegetal
-struct{
+struct caracteristic_vector {
   int caracteristics[5];
   char name[30];
-} caracteristic_vector;
+};
 
 //Vetor de estruturas
-//struct caracteristic_vector species[max_species];
+struct caracteristic_vector species[MAX_SPECIES_VECTOR];
 
 /*** Assinatura dos métodos ***/
 void  print_menu          ();
 void  realize_action      (int in);
 int   get_input_int       ();
-char  get_input_char      (char *in);
-void  create_vector       (char *dir);
-int  recognize            (char *file);
-void  add_image_to_vector (char *image);
+char  get_input_char      (char* in);
+void  create_vector       (char* dir);
+int  recognize            (char* file);
+void  add_image_to_vector (char* image);
 float leaf_width          ();
 float leaf_height         ();
 float leaf_area           ();
@@ -47,12 +47,12 @@ int main(){
 
 
 //Faz o reconhecimento da imagem a partir do vetor de características
-int recognize(char *file){
+int recognize(char* file){
   return 0;
 }
 
 // Cria o vetor de características
-void create_vector(char *dir){
+void create_vector(char* dir){
     //Estrutura que percorre os arquivos do diretório
     struct dirent **namelist;
     int file_num; // número de arquivos no diretório
@@ -71,7 +71,7 @@ void create_vector(char *dir){
 
 
 //Adiciona caracteristicas da folha ao vetor de carcterísticas
-void add_image_to_vector(char *image){
+void add_image_to_vector(char* image){
  
  //Carrega imagem da Folha
 	IplImage* imagem = cvLoadImage(image,1); 
@@ -130,7 +130,7 @@ int get_input_int(){
 
 //Le informação do usuário:String
 char get_input_char(char* in){
-    char input[max_char];
+    char input[MAX_STRING_LENGTH];
     scanf("%s",input);
     strcpy (in, input);
     return 1;
@@ -141,13 +141,13 @@ void realize_action(int in){
   switch (in){
          case 1:
               printf("Em qual diretório estão as imagens?\n");
-              char dir[max_char];
-              get_input_char(dir);  //DEBUG printf("%s", dir);
+              char dir[MAX_STRING_LENGTH];
+              get_input_char(dir);  //DEBUG printf("READ: %s", dir);
               //create_vector(dir);
               break;
          case 2:
               printf("Qual o endereço da imagem que deseja reconheceer?\n");
-              char file[max_char];
+              char file[MAX_STRING_LENGTH];
               get_input_char(file);
               recognize(file); 
               break;
