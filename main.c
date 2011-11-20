@@ -45,7 +45,6 @@ int main(){
   return 0;
 }
 
-
 //Faz o reconhecimento da imagem a partir do vetor de características
 int recognize(char* file){
   return 0;
@@ -63,7 +62,7 @@ void create_vector(char* dir){
     else {
       while(file_num--) {
         /* !DEBUG! printf("Cadastra -> %s\n", namelist[file_num]->d_name);  !DEBUG! */
-        add_image_to_vector(namelist[file_num]->d_name); //Usa a imagem como entrada para o vetor
+        add_image_to_vector(strcat(dir,namelist[file_num]->d_name)); //Usa a imagem como entrada para o vetor
         free(namelist[file_num]); //libera posição na memória
       }
     }
@@ -81,14 +80,13 @@ void add_image_to_vector(char* image){
 	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
  
        /* !DEBUG */
-         /* cvNamedWindow("DEBUG", 1);
+          cvNamedWindow("DEBUG", 1);
           cvShowImage("DEBUG", imagem);
           cvWaitKey(-1);
           cvDestroyWindow("DEBUG");
-        	cvReleaseImage(&imagem);*/
+        	cvReleaseImage(&imagem);
        /* !DEBUG */
 
-  // http://www710.univ-lyon1.fr/~bouakaz/OpenCV-0.9.5/docs/ref/OpenCVRef_StructAnalysis.htm
 }
 
 // Retorna a altura da folha
@@ -143,7 +141,7 @@ void realize_action(int in){
               printf("Em qual diretório estão as imagens?\n");
               char dir[MAX_STRING_LENGTH];
               get_input_char(dir);  //DEBUG printf("READ: %s", dir);
-              //create_vector(dir);
+              create_vector(dir);
               break;
          case 2:
               printf("Qual o endereço da imagem que deseja reconheceer?\n");
