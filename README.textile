@@ -10,17 +10,17 @@ Possui como objetivo a criação de um identificador de espécies vegetais atrav
 
 Professor Orientador:  Ronaldo Martins da Costa
 
-h2. TODO
-
-#. Conseguir as fotografias das espécies de treino.
-#. Descobrir a maior altura.
-#. Descobrir a maior largura.
-#. Descobrir o perímetro. - CvArcLenght?
-#. Descobrir a área da folha. - CvContourArea?
-#. Método que retorna todas as imagens de uma pasta para construir o vetor (utilizar nome do arquivo para classisficar as plantas)
-#. Cronstruir o vetor a partir dos arquivos e com os dados gerados pra cada imagem.
-#. Criar um método que pega o vetor e compara (distancia Euclidiana, ou angulo entre vetores) com a base de dados (a idéia é que esteja em arquivo.)
-
 h2. Como compilar
 
 * *Como compilar:*  gcc -I/usr/include/opencv/ -lcv -lhighgui -lstdc++ -o nome_executavel nome_arquivo.c
+
+h3. Imagens de treino
+
+Para utilizar outras imagens de treino basta seguir o padrão para nomeclatura:
+
+"nome_da_especie id_da_especie id_foto.jpg"
+
+Ex: especie1 1 1.jpg, especie1 1 2.jpg, outra_especie 2 1.jpg...
+
+Obs: as imagens de treino utilizadas aqui foram obtidas do projeto: Leaves Recognition v1.0 disponível em: http://www.jens-langner.de/lrecog/
+
