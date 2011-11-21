@@ -98,7 +98,7 @@ void create_vector(char* dir){
     int file_num; // número de arquivos no diretório
     file_num = scandir(dir, &namelist, 0, alphasort);
 
-    printf("file %i\n\n", file_num);
+    printf("Numero de arquivos encontrados para o treinamento: %i\n\n", file_num-2);
        
     if (file_num == 2) //linux inclui . e .. não sei pq
       perror("Não existem arquivos no diretório");
@@ -107,7 +107,7 @@ void create_vector(char* dir){
         char image[MAX_STRING_LENGTH];
         sprintf(image, "%s/%s", dir, namelist[file_num]->d_name);
 
-        printf("file_num = %i, name = %s\n", file_num, namelist[file_num]->d_name);
+        /* !DEBUG!  printf("file_num = %i, name = %s\n", file_num, namelist[file_num]->d_name); !DEBUG! */
         /* !DEBUG! printf("Cadastra -> %s\n", namelist[file_num]->d_name);  !DEBUG! */
         
         add_image_to_vector(image, namelist[file_num]->d_name); //Usa a imagem como entrada para o vetor
@@ -140,10 +140,12 @@ void add_image_to_vector(char* address, char* image){
   float perimeter = leaf_perimeter(imagem);
 
   char name[MAX_STRING_LENGTH];
-  int  position; 
-  char trash[3];
+  int position; 
+  char trash;
  
-  sscanf(image, "%s %1[_] %i %1[_] %c", name, &trash[0], &position, &trash[1], &trash[2]);
+  sscanf(image, "%s %i %c", name, &position, &trash);
+
+  /* !DEBUG! printf("NAME: %s, POSITION: %i, TRASH: %c \n", name,position, trash); !DEBUG */
 
   strcpy(species[position].name, name);
 
@@ -219,6 +221,7 @@ void realize_action(int in){
               char dir[MAX_STRING_LENGTH];
               get_input_char(dir);  //DEBUG printf("READ: %s", dir);
               create_vector(dir);
+              puts("Treinamento realizado com sucesso.\n");
               break;
          case 2:
               puts("Qual o endereço da imagem que deseja reconheceer?\n");
