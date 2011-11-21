@@ -72,7 +72,7 @@ int recognize(char* file){
 	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
 
   float best_choice = FLT_MAX - 1;
-  int aux, i;
+  int aux, i, result;
   float height    = leaf_height(imagem);
   float width     = leaf_width(imagem);
   float area      = leaf_area(imagem);
@@ -85,10 +85,15 @@ int recognize(char* file){
                 pow( (area   - species[i].caracteristics[2]),2) + 
                 pow( (perimeter - species[i].caracteristics[3]),2));
   
-    if (aux < best_choice)
+    if (aux < best_choice){
         best_choice = aux;
+        result = i;
+    }
   }
-  return 0;
+
+  printf("Essa folha pertence a espécie \"%s\".", species[result].name );
+
+  return best_choice;
 }
 
 // Cria o vetor de características
