@@ -5,6 +5,9 @@
 #include <dirent.h>
 #include <highgui.h>
 
+#include <limits.h>
+#include <float.h>
+
 #define MAX_STRING_LENGTH 180   //número máximo de caracteres nas strings recebidas
 #define MAX_SPECIES_VECTOR 10 //número máximo de espécies vegetais
 
@@ -60,6 +63,31 @@ void initialize_species_vector(){
 
 //Faz o reconhecimento da imagem a partir do vetor de características
 int recognize(char* file){
+
+//Carrega imagem da Folha
+	IplImage* imagem = cvLoadImage(file,1);
+ //Usa smooth para reduzir riscos ao lado da folha 
+	cvSmooth(imagem, imagem, CV_GAUSSIAN, 5, 5, 5, 5);
+ //Threshold da imagem da folha
+	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
+
+  float best_choice = FLT_MAX - 1;
+  int aux, i;
+  float height    = leaf_height(imagem);
+  float width     = leaf_width(imagem);
+  float area      = leaf_area(imagem);
+  float perimeter = leaf_perimeter(imagem);
+
+  for (i = 0; i < MAX_SPECIES_VECTOR; i++) {
+    aux = sqrt( 
+                pow( (height - species[i].caracteristics[0]),2) + 
+                pow( (width  - species[i].caracteristics[1]),2)  + 
+                pow( (area   - species[i].caracteristics[2]),2) + 
+                pow( (perimeter - species[i].caracteristics[3]),2));
+  
+    if (aux < best_choice)
+        best_choice = aux;
+  }
   return 0;
 }
 
@@ -72,14 +100,16 @@ void create_vector(char* dir){
 
     printf("file %i\n\n", file_num);
        
-    if (file_num == 2)
+    if (file_num == 2) //linux inclui . e .. não sei pq
       perror("Não existem arquivos no diretório");
     else {
       while(file_num-- > 2) {
         char image[MAX_STRING_LENGTH];
-        sprintf(image, "%s/%s", dir, namelist[file_num]->d_name); 
+        sprintf(image, "%s/%s", dir, namelist[file_num]->d_name);
+
         printf("file_num = %i, name = %s\n", file_num, namelist[file_num]->d_name);
         /* !DEBUG! printf("Cadastra -> %s\n", namelist[file_num]->d_name);  !DEBUG! */
+        
         add_image_to_vector(image, namelist[file_num]->d_name); //Usa a imagem como entrada para o vetor
         free(namelist[file_num]); //libera posição na memória
       }
@@ -116,10 +146,20 @@ void add_image_to_vector(char* address, char* image){
   sscanf(image, "%s %1[_] %i %1[_] %c", name, &trash[0], &position, &trash[1], &trash[2]);
 
   strcpy(species[position].name, name);
-  species[position].caracteristics[0] =  height;
-  species[position].caracteristics[1] =  width;
-  species[position].caracteristics[2] =  area;
-  species[position].caracteristics[3] =  perimeter;
+
+  if (species[position].caracteristics[0] ==  0){
+     species[position].caracteristics[0] =  height;
+     species[position].caracteristics[1] =  width;
+     species[position].caracteristics[2] =  area;
+     species[position].caracteristics[3] =  perimeter;
+  }
+  else{
+     species[position].caracteristics[0] =  (species[position].caracteristics[0] + height)/2;
+     species[position].caracteristics[1] =  (species[position].caracteristics[1] +  width)/2;
+     species[position].caracteristics[2] =  (species[position].caracteristics[2] +  area)/2;
+     species[position].caracteristics[3] =  (species[position].caracteristics[3] +  perimeter)/2;
+  }
+
 }
 
 // Retorna a altura da folha
