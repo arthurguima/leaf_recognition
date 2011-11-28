@@ -21,18 +21,18 @@ struct caracteristic_vector {
 struct caracteristic_vector species[MAX_SPECIES_VECTOR];
 
 /*** Assinatura dos métodos ***/
-void  print_menu               ();
-void  realize_action           (int in);
-int   get_input_int            ();
-int  get_input_char            (char* in);
-void  create_vector            (char* dir);
-int  recognize                 (char* file);
-void  add_image_to_vector      (char* address, char* image);
-void initialize_species_vector ();
-float leaf_width               (IplImage* img);
-float leaf_height              (IplImage* img);
-float leaf_area                (IplImage* img);
-float leaf_perimeter           (IplImage* img);
+void  print_menu                ();
+void  realize_action            (int in);
+int   get_input_int             ();
+int   get_input_char            (char* in);
+void  create_vector             (char* dir);
+int   recognize                 (char* file);
+void  add_image_to_vector       (char* address, char* image);
+void  initialize_species_vector ();
+float leaf_width                (IplImage* img);
+float leaf_height               (IplImage* img);
+float leaf_area                 (IplImage* img);
+float leaf_perimeter            (IplImage* img);
 /*****************************/
 
 //Função principal
@@ -67,14 +67,15 @@ int recognize(char* file){
  // puts("debug 1");
 
 //Carrega imagem da Folha
-	IplImage* imagem = cvLoadImage(file,1);
+	IplImage* imagem = cvLoadImage(file,0);
  //Usa smooth para reduzir riscos ao lado da folha 
 	cvSmooth(imagem, imagem, CV_GAUSSIAN, 5, 5, 5, 5);
  //Threshold da imagem da folha
 	cvThreshold(imagem, imagem, 242, 242, CV_THRESH_BINARY); //sem enervamento
 
   float best_choice = FLT_MAX - 1;
-  int aux, i, result;
+  int  i, result;
+  float aux;
   float height    = leaf_height(imagem);
   float width     = leaf_width(imagem);
   float area      = leaf_area(imagem);
@@ -87,7 +88,7 @@ int recognize(char* file){
                 pow( (width  - species[i].caracteristics[1]),2)  + 
                 pow( (area   - species[i].caracteristics[2]),2) + 
                 pow( (perimeter - species[i].caracteristics[3]),2));
-   // printf("Distancia %i/n", aux);
+    printf("Distancia %f\n", aux);
 
     if (aux < best_choice){
         best_choice = aux;
@@ -95,8 +96,9 @@ int recognize(char* file){
     }
   }
 
-  printf("Essa folha pertence a espécie \"%s\"./n", species[result].name );
+  printf("/nEssa folha pertence a espécie \"%s\"./n", species[result].name );
 
+//  printf("/n%f/n",best_choice);
   return best_choice;
 }
 
@@ -199,14 +201,15 @@ float leaf_height (IplImage* img){
       max = contador;
 	}
 	
-  //printf("MaxHeight: %f/n", max);
+  printf("MaxHeight: %f\n", max);
 	return max; 
 }
 
 //Retorna a largura da folha
 float leaf_width (IplImage* img){
   float max = -1;
-	IplImage* imgB = img;
+
+  IplImage* imgB = img;
 	int altura = imgB->height;
 	int largura = imgB->width;
 	int i,j;
@@ -228,18 +231,59 @@ float leaf_width (IplImage* img){
        max = contador;
 	}
 	
-  //printf("MaxWidth: %f/n", max);
+  printf("MaxWidth: %f\n", max);
 	return max;
 }
 
 //Retorna a área da folha
 float leaf_area (IplImage* img) {
-  return 0.0;
+  float area;
+  IplImage* grayImg = img;
+  IplImage* contourImg = NULL;
+
+  //Parametros para a detecção do contorno
+  CvMemStorage * storage = cvCreateMemStorage(0);
+  CvSeq * contour = 0;
+  int mode = CV_RETR_CCOMP; //detect both outside and inside contour
+  //int mode = CV_RETR_EXTERNAL;//detects only outer contour
+
+  // Cria cópia pois o cvFindCountour altera a imagem original
+  contourImg = cvCreateImage(cvGetSize(grayImg), IPL_DEPTH_8U, 3);
+  contourImg=cvCloneImage(grayImg);   
+  //Encontra o Contorno
+  cvFindContours(contourImg, storage, &contour, sizeof(CvContour), mode, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
+  //cvFindContours(contourImg, storage, &contour, sizeof( CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint( 0, 0) );
+
+  //Encontra o valor da área
+   area = abs(cvContourArea(contour, CV_WHOLE_SEQ,0));
+
+  printf("Area %f\n", area);
+  return area;
 }
 
 //Retorna o perimetro da folha
 float leaf_perimeter (IplImage* img){
-  return 0.0;
+  float perimeter;
+  IplImage* grayImg = img;
+  IplImage* contourImg = NULL;
+
+  //Parametros para a detecção do contorno
+  CvMemStorage * storage = cvCreateMemStorage(0);
+  CvSeq * contour = 0;
+  int mode = CV_RETR_CCOMP; //detect both outside and inside contour
+  //int mode = CV_RETR_EXTERNAL;//detects only outer contour
+
+  // Cria cópia pois o cvFindCountour altera a imagem original
+  contourImg = cvCreateImage(cvGetSize(grayImg), IPL_DEPTH_8U, 3);
+  contourImg=cvCloneImage(grayImg);   
+  //Encontra o Contorno
+  cvFindContours(contourImg, storage, &contour, sizeof(CvContour), mode, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0));
+  //cvFindContours(contourImg, storage, &contour, sizeof( CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint( 0, 0) );
+
+  cvContourPerimeter(contour);
+
+  printf("Perimeter: %f\n\n", perimeter);
+  return perimeter; 
 }
 
 /*                                                                                          *
@@ -282,7 +326,7 @@ void realize_action(int in){
               puts("Treinamento realizado com sucesso.\n");
               break;
          case 2:
-              puts("Qual o endereço da imagem que deseja reconheceer?\n");
+              puts("Qual o endereço da imagem que deseja reconhecer?\n");
               char file[MAX_STRING_LENGTH];
               get_input_char(file);
               recognize(file); 
