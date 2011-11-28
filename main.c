@@ -64,6 +64,8 @@ void initialize_species_vector(){
 //Faz o reconhecimento da imagem a partir do vetor de características
 int recognize(char* file){
 
+ // puts("debug 1");
+
 //Carrega imagem da Folha
 	IplImage* imagem = cvLoadImage(file,1);
  //Usa smooth para reduzir riscos ao lado da folha 
@@ -78,20 +80,22 @@ int recognize(char* file){
   float area      = leaf_area(imagem);
   float perimeter = leaf_perimeter(imagem);
 
+
   for (i = 0; i < MAX_SPECIES_VECTOR; i++) {
     aux = sqrt( 
                 pow( (height - species[i].caracteristics[0]),2) + 
                 pow( (width  - species[i].caracteristics[1]),2)  + 
                 pow( (area   - species[i].caracteristics[2]),2) + 
                 pow( (perimeter - species[i].caracteristics[3]),2));
-  
+   // printf("Distancia %i/n", aux);
+
     if (aux < best_choice){
         best_choice = aux;
         result = i;
     }
   }
 
-  printf("Essa folha pertence a espécie \"%s\".", species[result].name );
+  printf("Essa folha pertence a espécie \"%s\"./n", species[result].name );
 
   return best_choice;
 }
@@ -125,7 +129,7 @@ void create_vector(char* dir){
 void add_image_to_vector(char* address, char* image){
  
  //Carrega imagem da Folha
-	IplImage* imagem = cvLoadImage(address,1);
+	IplImage* imagem = cvLoadImage(address,0);
  //Usa smooth para reduzir riscos ao lado da folha 
 	cvSmooth(imagem, imagem, CV_GAUSSIAN, 5, 5, 5, 5);
  //Threshold da imagem da folha
@@ -171,12 +175,61 @@ void add_image_to_vector(char* address, char* image){
 
 // Retorna a altura da folha
 float leaf_height (IplImage* img){
-return 0.0;
+
+  float max = -1;
+  IplImage* imgA = img;
+	int altura = imgA->height;
+	int largura = imgA->width;
+	int i,j;
+	int contador = 0;
+
+  int step    = imgA->widthStep;
+  uchar* data = (uchar*) imgA->imageData;
+  int channels= imgA->nChannels;
+
+	
+	for (i=0; i < largura; i++) {
+    contador = 0;
+		for (j=0; j < altura; j++) {
+			if (data[i*step + j*channels] == 0) {
+				contador++;
+			}
+		}
+		if(contador > max)
+      max = contador;
+	}
+	
+  //printf("MaxHeight: %f/n", max);
+	return max; 
 }
 
 //Retorna a largura da folha
 float leaf_width (IplImage* img){
-  return 0.0;
+  float max = -1;
+	IplImage* imgB = img;
+	int altura = imgB->height;
+	int largura = imgB->width;
+	int i,j;
+	int contador = 0;
+
+  int step    = imgB->widthStep;
+  uchar* data = (uchar*) imgB->imageData;
+  int channels= imgB->nChannels;
+
+
+	for (i=0; i < altura; i++) {
+    contador = 0;
+		for (j=0; j < largura; j++) {
+			if (data[i*step + j*channels] == 0) {
+				contador++;
+			}
+		}
+		if (contador > max)
+       max = contador;
+	}
+	
+  //printf("MaxWidth: %f/n", max);
+	return max;
 }
 
 //Retorna a área da folha
